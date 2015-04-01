@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+
+import argparse
+import logging
+import sys
+
+from gtb.hdsiggen import HDSignalGenerator
+from gtb.hdsiggen.exceptions import HDSignalGeneratorException
+from gtb.hdsiggen.timings import TimingsMixin
+from gtb.hdsiggen.pattern import PatternMixin
+
+class JobsList(list):
+    def add(self, func, *args, **kwargs):
+        self.append((func, args, kwargs))
+
+    def run(self):
+        for func, args, kwargs in self:
+            result = func(*args, **kwargs)
+            if result:
+                print result
+
+
+## Define args
+
+parser = argparse.ArgumentParser(description="A tool to control Gefen HD Pattern Signal Generator")
+parser.add_argument('-v', '--verbose', action='store_const', const=logging.DEBUG, default=logging.ERROR, help="display log information")
+parser.add_argument('--firmware-version', action='store_true', help="return firmware version")
+
+group = parser.add_argument_group("serial")
+group.add_argument('-d', '--device', default='/dev/ttyUSB0', help="serial device to use")
+
+group = parser.add_argument_group("timings", " ".join(["%d: %s" % t for t in TimingsMixin.TIMINGS.iteritems()]))
+group.add_argument('-t', '--get-timings', action='store_true', help="return current timings")
+group.add_argument('-T', '--set-timings', type=int, metavar='TIMINGS', help="set timings")
+
+group = parser.add_argument_group("pattern", " ".join(["%d: %s" % p for p in PatternMixin.PATTERNS.iteritems()]))
+group.add_argument('-p', '--get-pattern', action='store_true', help="return current pattern")
+group.add_argument('-P', '--set-pattern', type=int, metavar='PATTERN', help="set pattern")
+
+## Analyse args
+
+jobs = JobsList()
+args = parser.parse_args()
+
+logging.basicConfig(level=args.verbose)
+
+## Create jobs list
+
+siggen = HDSignalGenerator(args.device)
+
+if args.firmware_version:
+    jobs.add(siggen.get_firmware_version)
+
+if args.get_timings:
+    jobs.add(siggen.get_timings)
+if args.set_timings:
+    jobs.add(siggen.set_timings, args.set_timings)
+
+if args.get_pattern:
+    jobs.add(siggen.get_pattern)
+if args.set_pattern:
+    jobs.add(siggen.set_pattern, args.set_pattern)
+
+## Run jobs
+
+if not jobs:
+    parser.error("Nothing to do")
+
+try:
+    jobs.run()
+except HDSignalGeneratorException as e:
+    sys.exit(": ".join([str(i) for i in e.args]))
+
