@@ -1,0 +1,4 @@
+
+class HDSignalGeneratorException(Exception):
+    pass
+
