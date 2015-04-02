@@ -4,7 +4,7 @@ import argparse
 import logging
 import sys
 
-from gtb.hdsiggen import HDSignalGenerator, HDSignalGeneratorException
+from gtbhdsiggen import HDSignalGenerator, HDSignalGeneratorException
 
 class JobsList(list):
     def add(self, func, *args, **kwargs):
