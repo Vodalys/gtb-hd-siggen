@@ -7,14 +7,14 @@ import sys
 from gtbhdsiggen import HDSignalGenerator, HDSignalGeneratorException
 
 class JobsList(list):
-    def add(self, func, *args, **kwargs):
-        self.append((func, args, kwargs))
+    def add(self, msg, func, *args, **kwargs):
+        self.append((msg, func, args, kwargs))
 
     def run(self):
-        for func, args, kwargs in self:
+        for msg, func, args, kwargs in self:
             result = func(*args, **kwargs)
-            if result:
-                print result
+            if msg and result:
+                print msg+':', result
 
 
 ## Define args
@@ -46,17 +46,17 @@ logging.basicConfig(level=args.verbose)
 siggen = HDSignalGenerator(args.device)
 
 if args.firmware_version:
-    jobs.add(siggen.get_firmware_version)
+    jobs.add("Firmware version", siggen.get_firmware_version)
 
 if args.get_timings:
-    jobs.add(siggen.get_timings)
+    jobs.add("Timings", siggen.get_timings)
 if args.set_timings:
-    jobs.add(siggen.set_timings, args.set_timings)
+    jobs.add(None, siggen.set_timings, args.set_timings)
 
 if args.get_pattern:
-    jobs.add(siggen.get_pattern)
+    jobs.add("Pattern", siggen.get_pattern)
 if args.set_pattern:
-    jobs.add(siggen.set_pattern, args.set_pattern)
+    jobs.add(None, siggen.set_pattern, args.set_pattern)
 
 ## Run jobs
 
