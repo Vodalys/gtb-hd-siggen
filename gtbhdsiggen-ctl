@@ -19,18 +19,19 @@ class JobsList(list):
 
 ## Define args
 
-parser = argparse.ArgumentParser(description="A tool to control Gefen HD Pattern Signal Generator")
+parser = argparse.ArgumentParser(description="A tool to control Gefen HD Pattern Signal Generator",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('-v', '--verbose', action='store_const', const=logging.DEBUG, default=logging.ERROR, help="display log information")
 parser.add_argument('--firmware-version', action='store_true', help="return firmware version")
 
 group = parser.add_argument_group("serial")
 group.add_argument('-d', '--device', default='/dev/ttyUSB0', help="serial device to use")
 
-group = parser.add_argument_group("timings", " ".join(["%d: %s" % t for t in HDSignalGenerator.TIMINGS.iteritems()]))
+group = parser.add_argument_group("timings", "\n".join(["%d: %s" % t for t in HDSignalGenerator.TIMINGS.iteritems()]))
 group.add_argument('-t', '--get-timings', action='store_true', help="return current timings")
 group.add_argument('-T', '--set-timings', type=int, metavar='TIMINGS', help="set timings")
 
-group = parser.add_argument_group("pattern", " ".join(["%d: %s" % p for p in HDSignalGenerator.PATTERNS.iteritems()]))
+group = parser.add_argument_group("pattern", "\n".join(["%d: %s" % p for p in HDSignalGenerator.PATTERNS.iteritems()]))
 group.add_argument('-p', '--get-pattern', action='store_true', help="return current pattern")
 group.add_argument('-P', '--set-pattern', type=int, metavar='PATTERN', help="set pattern")
 
