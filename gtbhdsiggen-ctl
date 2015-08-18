@@ -35,6 +35,10 @@ group = parser.add_argument_group("pattern", "\n".join(["%d: %s" % p for p in HD
 group.add_argument('-p', '--get-pattern', action='store_true', help="return current pattern")
 group.add_argument('-P', '--set-pattern', type=int, metavar='PATTERN', help="set pattern")
 
+group = parser.add_argument_group("output_format", "\n".join(["%d: %s" % f for f in HDSignalGenerator.OUTPUT_FORMATS.iteritems()]))
+group.add_argument('-o', '--get-output-format', action='store_true', help="return current output format")
+group.add_argument('-O', '--set-output-format', type=int, metavar='FORMAT', help="set output format")
+
 ## Analyse args
 
 jobs = JobsList()
@@ -58,6 +62,11 @@ if args.get_pattern:
     jobs.add("Pattern", siggen.get_pattern)
 if args.set_pattern:
     jobs.add(None, siggen.set_pattern, args.set_pattern)
+
+if args.get_output_format:
+    jobs.add("Output format", siggen.get_output_format)
+if args.set_output_format:
+    jobs.add(None, siggen.set_output_format, args.set_output_format)
 
 ## Run jobs
 

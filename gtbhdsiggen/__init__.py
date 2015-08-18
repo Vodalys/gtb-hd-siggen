@@ -1,13 +1,14 @@
-from .timings import *
-from .pattern import *
-from .exceptions import *
+from .timings import TimingsMixin
+from .pattern import PatternMixin
+from .output_format import OutputFormatMixin
+from .exceptions import HDSignalGeneratorException
 
 import serial
 import logging
 
 logger = logging.getLogger(__name__)
 
-class HDSignalGenerator(TimingsMixin, PatternMixin):
+class HDSignalGenerator(TimingsMixin, PatternMixin, OutputFormatMixin):
     def __init__(self, device):
         if not device:
             raise HDSignalGeneratorException("Invalid serial device: %s" % device)
