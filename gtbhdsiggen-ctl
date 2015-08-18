@@ -37,7 +37,7 @@ group.add_argument('-P', '--set-pattern', type=int, metavar='PATTERN', help="set
 
 group = parser.add_argument_group("output_format", "\n".join(["%d: %s" % f for f in HDSignalGenerator.OUTPUT_FORMATS.iteritems()]))
 group.add_argument('-o', '--get-output-format', action='store_true', help="return current output format")
-group.add_argument('-O', '--set-output-format', type=int, metavar='FORMAT', help="set output format")
+group.add_argument('-O', '--set-output-format', type=str, metavar='FORMAT', help="set output format")
 
 ## Analyse args
 
