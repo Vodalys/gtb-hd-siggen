@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 class HDSignalGenerator(TimingsMixin, PatternMixin):
     def __init__(self, device):
+        if not device:
+            raise HDSignalGeneratorException("Invalid serial device: %s" % device)
         self.serial = serial.Serial(device, 19200, 8, 'N', 1, timeout=5)
 
     def _execute(self, msg, readsize=6):
