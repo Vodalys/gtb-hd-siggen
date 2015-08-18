@@ -4,6 +4,12 @@ class TimingsException(HDSignalGeneratorException):
     pass
 
 class TimingsMixin(object):
+    def find_timings(self, timings):
+        for key, value in self.TIMINGS.iteritems():
+            if value == timings:
+                return key
+        raise TimingsException("Timings %s is not supported" % timings)
+
     def get_timings(self):
         response = self._execute('TIM999')
         index = self._parsenum(response)
@@ -12,8 +18,8 @@ class TimingsMixin(object):
         except KeyError as e:
             raise TimingsException("Received timings index is unknown", e)
 
-    def set_timings(self, index):
-        #FIXME Check index?
+    def set_timings(self, timings):
+        index = self.find_timings(timings)
         req = self._formatreq('TIM', index)
         resp = self._execute(req)
         if req != resp:

@@ -3,29 +3,35 @@ A python lib and tool to control Gefen HD Pattern Signal Generator on Linux
 
 ## From python
 
-    >>> from gtbhdsiggen import HDSignalGenerator
-    >>> siggen = HDSignalGenerator('/dev/ttyUSB0')
-    >>> siggen.get_timings()
-    '1280x720p@60'
-    >>> siggen.get_pattern()
-    'Color Bar'
-    >>> siggen.set_timings(35)
-    >>> siggen.set_pattern(15)
+```
+>>> from gtbhdsiggen import HDSignalGenerator
+>>> siggen = HDSignalGenerator('/dev/ttyUSB0')
+>>> siggen.get_timings()
+'1280x720p@60'
+>>> siggen.get_pattern()
+'Color Bar'
+>>> siggen.set_timings('1920x1080p@50')
+>>> siggen.set_pattern(15)
+```
 
 ## From shell
 
 Get timings and pattern:
 
-    $ ./gtbhdsiggen-ctl --get-timings --get-pattern
-    Timings: 1920x1080p@50
-    Pattern: SMPTE Color Bar
+```
+$ ./gtbhdsiggen-ctl --get-timings --get-pattern
+Timings: 1920x1080p@50
+Pattern: SMPTE Color Bar
+```
 
 Set timings and pattern:
 
-    $ ./gtbhdsiggen-ctl --set-timings=26 --set-pattern=14
-    $ ./gtbhdsiggen-ctl --get-timings --get-pattern
-    Timings: 1280x720p@60
-    Pattern: Color Bar
+```
+$ ./gtbhdsiggen-ctl --set-timings=1280x720p@60 --set-pattern=14
+$ ./gtbhdsiggen-ctl --get-timings --get-pattern
+Timings: 1280x720p@60
+Pattern: Color Bar
+```
 
 Help:
 

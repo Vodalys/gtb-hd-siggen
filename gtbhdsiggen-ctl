@@ -29,7 +29,7 @@ group.add_argument('-d', '--device', default='/dev/ttyUSB0', help="serial device
 
 group = parser.add_argument_group("timings", "\n".join(["%d: %s" % t for t in HDSignalGenerator.TIMINGS.iteritems()]))
 group.add_argument('-t', '--get-timings', action='store_true', help="return current timings")
-group.add_argument('-T', '--set-timings', type=int, metavar='TIMINGS', help="set timings")
+group.add_argument('-T', '--set-timings', type=str, metavar='TIMINGS', help="set timings")
 
 group = parser.add_argument_group("pattern", "\n".join(["%d: %s" % p for p in HDSignalGenerator.PATTERNS.iteritems()]))
 group.add_argument('-p', '--get-pattern', action='store_true', help="return current pattern")
