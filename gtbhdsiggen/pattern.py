@@ -13,7 +13,6 @@ class PatternMixin(object):
             raise PatternException("Received pattern index is unknown", e)
 
     def set_pattern(self, index):
-        #FIXME Check index?
         req = self._formatreq('PAT', index)
         resp = self._execute(req)
         if req != resp:
