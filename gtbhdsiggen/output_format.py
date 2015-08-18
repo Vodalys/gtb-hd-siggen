@@ -20,7 +20,7 @@ class OutputFormatMixin(object):
 
     def set_output_format(self, name):
         index = self.find_format(name)
-        req = self._formatreq('PAT', index)
+        req = self._formatreq('OUT', index)
         resp = self._execute(req)
         if req != resp:
             raise OutputFormatException("Failed to set output format")
