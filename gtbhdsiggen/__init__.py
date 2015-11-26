@@ -16,10 +16,11 @@ class HDSignalGenerator(TimingsMixin, PatternMixin, OutputFormatMixin):
 
     def _execute(self, msg, readsize=6):
         """Send msg and waits for response of readsize bytes"""
-        logger.debug(">> %s" % msg)
+        self.serial.flushInput()
+        logger.debug("[%s] >> %s" % (self.serial.name, msg))
         self.serial.write(msg)
         response = self.serial.read(readsize)
-        logger.debug("<< %s" % response)
+        logger.debug("[%s] << %s" % (self.serial.name, response))
         return response
 
     def _parsenum(self, msg):
